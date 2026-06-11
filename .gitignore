@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+echo "node_modules/" >> .gitignore
+echo "package-lock.json" >> .gitignore
+echo "data/" >> .gitignore
+
 # Distribution / packaging
 .Python
 build/
