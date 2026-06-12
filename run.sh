@@ -4,7 +4,7 @@
 case "$1" in 
     build_generator)
         echo "Собран образ для контейнера генератора"
-        docker build -t generator ./generator
+        docker build -t generator ./generate
         ;;
     run_generator)
         echo "Запущен контейнер"
@@ -15,7 +15,7 @@ case "$1" in
     create_local_data)
         echo "Запуск генератора для локальной отладки"
         mkdir -p local_data
-        python3 generator/generate.py local_data
+        python3 generate/generate.py local_data
         echo "Создан local_data/data.csv"
         ;;
     *)
