@@ -18,8 +18,18 @@ case "$1" in
         python3 generate/generate.py local_data
         echo "Создан local_data/data.csv"
         ;;
+    build_reporter)
+        echo "Собран образ для контейнера аналитика"
+        docker build -t reporter ./report
+        ;;
+    run_reporter)
+        echo "Запущен контейнер"
+        mkdir -p data
+        docker run --rm -v "$(pwd)/data:/data" reporter
+        echo "Сгенерирован html отчет локально в директории data: data/report.html"
+        ;;
     *)
-        echo "Использование: ./run.sh {build_generator|run_generator|create_local_data}"
+        echo "Использование: ./run.sh {build_generator|run_generator|create_local_data|build_reporter|run_reporter}"
         exit 1
         ;;
 esac
