@@ -1,7 +1,25 @@
 #!/bin/bash
 # https://www.gnu.org/software/bash/manual/bash.html#Case-Conditionals - вот здесь прочитала про то, какой синтаксис у case (можно по поиску на странице достаточно быстро найти)
 
-case "$1" in 
+case "$1" in
+    structure)
+        echo "Структура проекта:"
+        find . -not -path "*/\.*" -not -path "*/node_modules/*" | sort
+        ;;
+    clear_data)
+        echo "Очистка data/"
+        rm -rf data/*.csv data/*.html
+        echo "Папка data/ очищена"
+        ;;
+    inside_generator)
+        echo "Содержимое data/ из контейнера генератора:"
+        docker run --rm -v "$(pwd)/data:/data" generator ls -la /data/
+        ;;
+    inside_reporter)
+        echo "Содержимое data/ из контейнера аналитика:"
+        docker run --rm -v "$(pwd)/data:/data" reporter ls -la /data/
+        ;;
+
     build_generator)
         echo "Собран образ для контейнера генератора"
         docker build -t generator ./generate
@@ -29,7 +47,7 @@ case "$1" in
         echo "Сгенерирован html отчет локально в директории data: data/report.html"
         ;;
     *)
-        echo "Использование: ./run.sh {build_generator|run_generator|create_local_data|build_reporter|run_reporter}"
+        echo "Использование: ./run.sh {build_generator|run_generator|create_local_data|build_reporter|run_reporter|structure|clear_data|inside_generator|inside_reporter}"
         exit 1
         ;;
 esac
